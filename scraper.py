@@ -5,7 +5,7 @@ IMDB_BASE_URL = "https://www.imdb.com"
 
 # OMDB API
 OMDB_API_URL = "http://www.omdbapi.com"
-OMDB_API_KEY = "13a2f095"
+OMDB_API_KEY = "your-api-key"
 
 
 def get_movie_id(title):
