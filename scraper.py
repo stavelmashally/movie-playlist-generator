@@ -5,7 +5,7 @@ IMDB_BASE_URL = "https://www.imdb.com"
 
 # OMDB API
 OMDB_API_URL = "http://www.omdbapi.com"
-OMDB_API_KEY = "your-omdb-api-key"
+OMDB_API_KEY = "13a2f095"
 
 
 def get_movie_id(title):
@@ -38,17 +38,19 @@ def fetch_soundtrack(movie_name):
 
 def extract(html_track):
     """Extract track information from HTML text"""
+    keywords = {
+        "Performed by",
+        "Written and Performed by",
+        "Written by",
+        "Music by"
+    }
     track = {}
     track_details = html_track.text.split("\n")
     track['Name'] = track_details[0].strip()
     # Extract only the necessary data
     for line in track_details[1:]:
-        if line.startswith("Performed by"):
-            track['Performer'] = line[13:].split(",")[0]
-        if line.startswith("Written and Performed by"):
-            track['Performer'] = line[25:].split(",")[0]
-        if line.startswith("Written by"):
-            track['Writer'] = line[11:].split(",")[0]
-        if line.startswith("Music by"):
-            track['Music by'] = line[9:].split(",")[0]
+        for kw in keywords:
+            if line.startswith(kw):
+                index = len(kw) + 1
+                track[kw] = line[index:-1].split(",")[0]
     return track
